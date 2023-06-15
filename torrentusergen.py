@@ -8,41 +8,87 @@ def generate_random_string(length):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
-# URL of the qBittorrent download page
-url = "https://www.qbittorrent.org/download"
+# Function to get the latest version number from the website
+def get_latest_version():
+    # URL of the qBittorrent download page
+    url = "https://www.qbittorrent.org/download"
 
-print("Connecting to", url)
+    print("Going on", url)
 
-# Send a GET request to the page
-response = requests.get(url)
+    # Send a GET request to the page
+    response = requests.get(url)
 
-# Create a BeautifulSoup object to parse the HTML content
-soup = BeautifulSoup(response.content, "html.parser")
+    # Create a BeautifulSoup object to parse the HTML content
+    soup = BeautifulSoup(response.content, "html.parser")
 
-# Find the latest version number
-latest_version_tag = soup.select_one("p.releaseParagraph strong a")
-latest_version = latest_version_tag.get_text().split("v")[1]
+    # Find the latest version number
+    latest_version_tag = soup.select_one("p.releaseParagraph strong a")
+    latest_version = latest_version_tag.get_text().split("v")[1]
 
-# Display the latest version number
-print("Latest version number:", latest_version)
+    return latest_version
 
-# Wait for user input to continue
-input("Press enter to continue generating the user agent")
+# Prompt the user for version selection
+def prompt_version_selection():
+    print("qBittorrent User Agent Generator")
+    print("Select a qBittorrent version:")
+    print("1. Latest qBittorrent version")
+    print("2. Older qBittorrent version (v3.0.0 to v4.5.2)")
 
-# Generate the torrent user agent
-user_agent = f"qBittorrent/{latest_version}"
+    while True:
+        choice = input("Enter your choice (1 or 2): ")
+        if choice == "1":
+            return get_latest_version()
+        elif choice == "2":
+            return select_older_version()
+        else:
+            print("Invalid choice. Please try again.")
 
-# Generate the peer ID
-peer_id_prefix = f"-qB{latest_version.replace('.', '')}0-"
-peer_id = peer_id_prefix + generate_random_string(11) + "0"
+# Select an older version from v3.0.0 to v4.5.2
+def select_older_version():
+    while True:
+        version = input("Enter the version number (v3.0.0 to v4.5.2): ")
+        if version >= "3.0.0" and version <= "4.5.2":
+            return version
+        else:
+            print("Invalid version. Please try again.")
 
-# Generate the xfer_peerid
-xfer_peer_id = peer_id
+# Main program
+def main():
+    # Prompt version selection
+    version_number = prompt_version_selection()
 
-# Print the result
-print(f"header:%0D%0AUser-Agent: {user_agent}")
-print(f"peerid:{peer_id}")
-print(f"xfer_peerid:{xfer_peer_id}")
+    # If the version is newer than v4.5.2, print "Current version number" instead of "Selected version number"
+    if version_number > "4.5.2":
+        print("Current version number:", version_number)
 
-# Wait for user input to exit
-input("Press enter to exit")
+        # Ask the user to press enter to continue
+        input("Press enter to continue")
+    
+    # Remove the message "Current version number" if the version is v4.5.2 or older
+    else:
+        print("Selected version number:", version_number)
+
+        # Ask the user to press enter to continue
+        input("Press enter to continue")
+
+    # Generate the torrent user agent
+    user_agent = f"qBittorrent/{version_number}"
+
+    # Generate the peer ID
+    peer_id_prefix = f"-qB{version_number.replace('.', '')}0-"
+    peer_id = peer_id_prefix + generate_random_string(11) + "0"
+
+    # Generate the xfer_peerid
+    xfer_peer_id = peer_id
+
+    # Print the result
+    print(f"header:%0D%0AUser-Agent: {user_agent}")
+    print(f"peerid:{peer_id}")
+    print(f"xfer_peerid:{xfer_peer_id}")
+
+    # Wait for user input to exit
+    input("Press enter to exit")
+
+# Run the main program
+if __name__ == "__main__":
+    main()
