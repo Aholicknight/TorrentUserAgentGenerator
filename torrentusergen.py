@@ -16,6 +16,11 @@ print("Connecting to", url)
 # Send a GET request to the page
 response = requests.get(url)
 
+# Check if the request was successful (HTTP 200 OK) and exit if not
+if response.status_code != 200:
+    print("Cannot connect to qBittorrent download page:", response.status_code)
+    exit()
+
 # Create a BeautifulSoup object to parse the HTML content
 soup = BeautifulSoup(response.content, "html.parser")
 
