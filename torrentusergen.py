@@ -29,10 +29,15 @@ def get_latest_version():
 
 # Prompt the user for version selection
 def prompt_version_selection():
-    print("qBittorrent User Agent Generator")
-    print("Select a qBittorrent version:")
-    print("1. Latest qBittorrent version")
-    print("2. Older qBittorrent version (v3.0.0 to v4.5.2)")
+    print("qBittorrent torrent user agent generator")
+    print("=======================================")
+    print("This script will generate a torrent user agent for use with Tixati or any other torrent client that lets you spoof your user agent.")
+    print("The user agent will be generated based on the latest version of qBittorrent available on the download page.")
+    print("The script will also generate a random 12 length peer ID and an xfer_peerid.")
+    print("=======================================")
+    print("")
+    print("1: Use the latest version of qBittorrent")
+    print("2: Select an older version of qBittorrent")
 
     while True:
         choice = input("Enter your choice (1 or 2): ")
@@ -62,7 +67,7 @@ def main():
         print("Current version number:", version_number)
 
         # Ask the user to press enter to continue
-        input("Press enter to continue generating the user agent")
+        #input("Press enter to continue generating the user agent")
     
     # Remove the message "Current version number" if the version is v4.5.2 or older
     else:
