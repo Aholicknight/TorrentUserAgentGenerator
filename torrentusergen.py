@@ -62,14 +62,14 @@ def main():
         print("Current version number:", version_number)
 
         # Ask the user to press enter to continue
-        input("Press enter to continue")
+        input("Press enter to continue generating the user agent")
     
     # Remove the message "Current version number" if the version is v4.5.2 or older
     else:
         print("Selected version number:", version_number)
 
         # Ask the user to press enter to continue
-        input("Press enter to continue")
+        input("Press enter to continue generating the user agent")
 
     # Generate the torrent user agent
     user_agent = f"qBittorrent/{version_number}"
