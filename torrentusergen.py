@@ -11,6 +11,14 @@ def generate_random_string(length):
 # URL of the qBittorrent download page
 url = "https://www.qbittorrent.org/download"
 
+print("qBittorrent torrent user agent generator")
+print("=======================================")
+print("This script will generate a torrent user agent for use with Tixati or any other torrent client that lets you spoof your user agent.")
+print("The user agent will be generated based on the latest version of qBittorrent available on the download page.")
+print("The script will also generate a random 12 length peer ID and an xfer_peerid.")
+print("=======================================")
+print("")
+input("To continue with the generation, press enter. To exit, press CTRL+C.")
 print("Connecting to", url)
 
 # Send a GET request to the page
@@ -30,9 +38,6 @@ latest_version = latest_version_tag.get_text().split("v")[1]
 
 # Display the latest version number
 print("Latest version number:", latest_version)
-
-# Wait for user input to continue
-input("Press enter to continue generating the user agent")
 
 # Generate the torrent user agent
 user_agent = f"qBittorrent/{latest_version}"
